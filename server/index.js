@@ -19,9 +19,14 @@ app.get("/", (req, res) => {
   res.send("API running");
 });
 
+
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
+app.get("/", (req, res) => {
+  res.send("API is running 🚀");
+});
+
 
 app.post("/chat", async (req, res) => {
   try {

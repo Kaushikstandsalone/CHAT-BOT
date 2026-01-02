@@ -26,7 +26,7 @@ const Chatbot = () => {
     setInput('')
 
     try{
-        const res = await fetch("http://localhost:5000/chat",{
+        const res = await fetch("https://chat-bot-960g.onrender.com/api/auth/chat",{
             method:"POST",
             headers:{"Content-Type":"application/json",
                 "Authorization": getToken(),
