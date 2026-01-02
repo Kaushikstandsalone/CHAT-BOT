@@ -29,24 +29,34 @@ app.get("/", (req, res) => {
 
 
 app.post("/chat", async (req, res) => {
+  console.log("🔥 /chat HIT");
+  console.log("📩 Body:", req.body);
+
   try {
-    console.log("📩 Incoming body:", req.body);
+    const { message } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ reply: "Message missing" });
+    }
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: req.body.message,
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: message }],
+        },
+      ],
     });
 
-    console.log("🧠 Gemini raw response object:", response);
+    console.log("🧠 Gemini full response:", response);
 
     const reply = response.text;
-
-    console.log("✅ Sending reply to frontend:", reply);
 
     res.status(200).json({ reply });
 
   } catch (err) {
-    console.error("❌ Backend error:", err);
+    console.error("❌ GEMINI ERROR FULL:", err);
     res.status(500).json({ reply: "AI error" });
   }
 });
